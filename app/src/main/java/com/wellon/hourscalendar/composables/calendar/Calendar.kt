@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import io.github.boguszpawlowski.composecalendar.SelectableCalendar
+import java.time.DayOfWeek
 
 @Composable
 fun Calendar(materialTheme: MaterialTheme) {
@@ -21,10 +22,12 @@ fun Calendar(materialTheme: MaterialTheme) {
             ) { content(PaddingValues()) }
         },
         monthHeader = {
-            MonthHeader(it.currentMonth.monthValue, it.currentMonth.year, materialTheme)
+            MonthHeader(materialTheme, it)
         },
         daysOfWeekHeader = {
             DaysOfWeekHeader(it, materialTheme)
-        }
+        },
+        firstDayOfWeek = DayOfWeek.MONDAY,
+        showAdjacentMonths = false
     )
 }
