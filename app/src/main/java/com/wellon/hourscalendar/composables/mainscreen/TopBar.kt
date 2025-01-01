@@ -38,7 +38,7 @@ fun TopBar() {
             IconButton(onClick = { TODO() }, modifier = Modifier.padding(end = 16.dp)) {
                 Icon(
                     imageVector = Icons.Filled.Settings,   // иконка настроек
-                    contentDescription = "Localized description"
+                    contentDescription = "Localized description 1"
                 )
             }
         }
