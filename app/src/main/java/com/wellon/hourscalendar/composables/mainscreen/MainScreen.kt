@@ -13,7 +13,8 @@ import com.wellon.hourscalendar.composables.calendar.Calendar
 fun MainScreen(materialTheme: MaterialTheme) {
     Scaffold (
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
+        topBar = { TopBar() }
     ) {
         Calendar(materialTheme)
     }
