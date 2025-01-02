@@ -10,6 +10,6 @@ fun MainScreen() {
     Scaffold (
 
     ) {
-
+        TopBar()
     }
 }
