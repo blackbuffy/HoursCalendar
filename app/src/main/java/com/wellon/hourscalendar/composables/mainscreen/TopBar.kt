@@ -23,15 +23,15 @@ fun TopBar() {
         navigationIcon = {
             Icon(
                 modifier = Modifier.padding(start = 15.dp),
-                imageVector = Icons.Filled.DateRange,   // иконка календарика
-                contentDescription = "Localized description"
+                imageVector = Icons.Filled.DateRange,
+                contentDescription = "иконка календарика"
             )
         },
         actions = {
             IconButton(onClick = { TODO() }, modifier = Modifier.padding(end = 16.dp)) {
                 Icon(
-                    imageVector = Icons.Filled.Settings,   // иконка настроек
-                    contentDescription = "Localized description 1"
+                    imageVector = Icons.Filled.Settings,
+                    contentDescription = "иконка настроек"
                 )
             }
         }
