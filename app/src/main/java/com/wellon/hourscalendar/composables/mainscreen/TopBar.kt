@@ -7,31 +7,35 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar() {
+fun TopBar(materialTheme: MaterialTheme) {
     TopAppBar(
         title = {
-            Text(text = "Трекер Рабочих Часов", modifier = Modifier.padding(start = 21.dp))
+            Text(
+                text = "Календарь часов",
+                style = materialTheme.typography.titleLarge,
+                color = materialTheme.colorScheme.primary
+            )
         },
         navigationIcon = {
             Icon(
-                modifier = Modifier.padding(start = 15.dp),
                 imageVector = Icons.Filled.DateRange,
-                contentDescription = "иконка календарика"
+                contentDescription = "иконка календарика",
+                tint = materialTheme.colorScheme.tertiary
             )
         },
         actions = {
-            IconButton(onClick = { TODO() }, modifier = Modifier.padding(end = 16.dp)) {
+            IconButton(onClick = { TODO() }) {
                 Icon(
                     imageVector = Icons.Filled.Settings,
-                    contentDescription = "иконка настроек"
+                    contentDescription = "иконка настроек",
+                    tint = materialTheme.colorScheme.tertiary
                 )
             }
         }

@@ -1,6 +1,5 @@
 package com.wellon.hourscalendar.composables.calendar
 
-import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,13 +12,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.boguszpawlowski.composecalendar.header.MonthState
-import java.time.YearMonth
 
 val russianMonthsMap = mapOf(
     1 to "Январь",
@@ -45,7 +41,7 @@ fun MonthHeader(materialTheme: MaterialTheme, state: MonthState) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(top = 2.dp, bottom = 6.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -54,14 +50,15 @@ fun MonthHeader(materialTheme: MaterialTheme, state: MonthState) {
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                contentDescription = "Предыдущий месяц"
+                contentDescription = "Предыдущий месяц",
+                tint = materialTheme.colorScheme.tertiary
             )
         }
 
         Text(
             text = "${russianMonthsMap[monthValue]} $year",
             style = materialTheme.typography.titleMedium,
-            color = materialTheme.colorScheme.secondary
+            color = materialTheme.colorScheme.primary
         )
 
         IconButton(
@@ -69,7 +66,8 @@ fun MonthHeader(materialTheme: MaterialTheme, state: MonthState) {
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = "Следующий месяц"
+                contentDescription = "Следующий месяц",
+                tint = materialTheme.colorScheme.tertiary
             )
         }
     }

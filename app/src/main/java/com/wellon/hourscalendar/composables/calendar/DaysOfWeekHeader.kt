@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import java.time.DayOfWeek
 import java.time.format.TextStyle
@@ -20,14 +21,15 @@ fun DaysOfWeekHeader(days: List<DayOfWeek>, materialTheme: MaterialTheme) {
     Row (
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         days.forEach { day ->
             Text(
-                text = day.getDisplayName(TextStyle.SHORT, Locale("ru")),
+                textAlign = TextAlign.Center,
+                text = day.getDisplayName(TextStyle.SHORT, Locale("ru")).replaceFirstChar { it.uppercaseChar() },
                 style = materialTheme.typography.titleSmall,
-                color = materialTheme.colorScheme.secondary
+                color = materialTheme.colorScheme.primary
             )
         }
     }
