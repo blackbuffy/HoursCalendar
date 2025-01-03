@@ -2,6 +2,7 @@ package com.wellon.hourscalendar.composables.mainscreen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
@@ -15,23 +16,20 @@ import com.wellon.hourscalendar.composables.calendar.Calendar
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen(materialTheme: MaterialTheme) {
+fun MainScreen(materialTheme: MaterialTheme, isDarkTheme: Boolean, setDarkTheme: (Boolean) -> Unit) {
     Scaffold (
         modifier = Modifier
             .fillMaxSize(),
         containerColor = materialTheme.colorScheme.surface,
-        topBar = { TopBar(materialTheme) }
+        topBar = { TopBar(materialTheme, isDarkTheme) }
     ) {
         Column (
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it),
+                .padding(PaddingValues(top = it.calculateTopPadding() + 8.dp)),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            HorizontalDivider(
-                thickness = 1.dp,
-                color = materialTheme.colorScheme.tertiary
-            )
+
 
             Calendar(materialTheme)
         }

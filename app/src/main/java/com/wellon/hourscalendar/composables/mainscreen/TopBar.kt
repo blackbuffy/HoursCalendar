@@ -10,11 +10,15 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(materialTheme: MaterialTheme) {
+fun TopBar(materialTheme: MaterialTheme, isDarkTheme: Boolean) {
+
     TopAppBar(
         title = {
             Text(
@@ -38,6 +42,13 @@ fun TopBar(materialTheme: MaterialTheme) {
                     tint = materialTheme.colorScheme.tertiary
                 )
             }
-        }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = materialTheme.colorScheme.primaryContainer
+        ),
+        modifier = Modifier
+            .graphicsLayer(
+                shadowElevation = 7f
+            )
     )
 }

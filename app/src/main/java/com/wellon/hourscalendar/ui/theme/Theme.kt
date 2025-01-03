@@ -12,6 +12,10 @@ private val DarkColorScheme = darkColorScheme(
     primaryContainer = PrimaryContainerDark,
     primary = PrimaryDark,
 
+    onPrimary = OnPrimaryDark,
+
+    secondaryContainer = SecondaryContainerDark,
+
     tertiary = TertiaryDark
 )
 
@@ -20,6 +24,10 @@ private val LightColorScheme = lightColorScheme(
 
     primaryContainer = PrimaryContainer,
     primary = Primary,
+
+    onPrimary = OnPrimary,
+
+    secondaryContainer = SecondaryContainer,
 
     tertiary = Tertiary
 )

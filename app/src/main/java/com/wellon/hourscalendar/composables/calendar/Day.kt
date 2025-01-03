@@ -28,7 +28,7 @@ fun Day(materialTheme: MaterialTheme, state: DayState<DynamicSelectionState>) {
                 shape = RoundedCornerShape(8.dp)
             ),
         shape = RoundedCornerShape(8.dp),
-        colors = CardDefaults.cardColors(containerColor = materialTheme.colorScheme.primaryContainer)
+        colors = CardDefaults.cardColors(containerColor = materialTheme.colorScheme.secondaryContainer)
     ) {
         Box(
             contentAlignment = Alignment.Center,
