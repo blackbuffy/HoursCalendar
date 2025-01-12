@@ -16,22 +16,21 @@ import com.wellon.hourscalendar.composables.calendar.Calendar
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen(materialTheme: MaterialTheme, isDarkTheme: Boolean, setDarkTheme: (Boolean) -> Unit) {
+fun MainScreen(isDarkTheme: Boolean, setDarkTheme: (Boolean) -> Unit) {
     Scaffold (
         modifier = Modifier
             .fillMaxSize(),
-        containerColor = materialTheme.colorScheme.surface,
-        topBar = { TopBar(materialTheme, isDarkTheme) }
+        containerColor = MaterialTheme.colorScheme.surface,
+        topBar = { TopBar() }
     ) {
         Column (
             modifier = Modifier
                 .fillMaxSize()
-                .padding(PaddingValues(top = it.calculateTopPadding() + 8.dp)),
+                .padding(PaddingValues(top = it.calculateTopPadding() + 16.dp)),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-
-            Calendar(materialTheme)
+            Calendar()
+            SummaryCard()
         }
     }
 }

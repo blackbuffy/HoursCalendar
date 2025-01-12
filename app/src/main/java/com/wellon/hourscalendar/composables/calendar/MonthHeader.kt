@@ -33,7 +33,7 @@ val russianMonthsMap = mapOf(
 )
 
 @Composable
-fun MonthHeader(materialTheme: MaterialTheme, state: MonthState) {
+fun MonthHeader(state: MonthState) {
     val currentMonth = state.currentMonth
     val monthValue = currentMonth.monthValue
     val year = currentMonth.year
@@ -51,14 +51,14 @@ fun MonthHeader(materialTheme: MaterialTheme, state: MonthState) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                 contentDescription = "Предыдущий месяц",
-                tint = materialTheme.colorScheme.tertiary
+                tint = MaterialTheme.colorScheme.tertiary
             )
         }
 
         Text(
             text = "${russianMonthsMap[monthValue]} $year",
-            style = materialTheme.typography.titleMedium,
-            color = materialTheme.colorScheme.primary
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary
         )
 
         IconButton(
@@ -67,7 +67,7 @@ fun MonthHeader(materialTheme: MaterialTheme, state: MonthState) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = "Следующий месяц",
-                tint = materialTheme.colorScheme.tertiary
+                tint = MaterialTheme.colorScheme.tertiary
             )
         }
     }

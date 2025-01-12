@@ -17,7 +17,7 @@ import java.time.format.TextStyle
 import java.util.Locale
 
 @Composable
-fun DaysOfWeekHeader(days: List<DayOfWeek>, materialTheme: MaterialTheme) {
+fun DaysOfWeekHeader(days: List<DayOfWeek>) {
     Row (
         modifier = Modifier
             .fillMaxWidth()
@@ -28,8 +28,8 @@ fun DaysOfWeekHeader(days: List<DayOfWeek>, materialTheme: MaterialTheme) {
             Text(
                 textAlign = TextAlign.Center,
                 text = day.getDisplayName(TextStyle.SHORT, Locale("ru")).replaceFirstChar { it.uppercaseChar() },
-                style = materialTheme.typography.titleSmall,
-                color = materialTheme.colorScheme.primary
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.primary
             )
         }
     }

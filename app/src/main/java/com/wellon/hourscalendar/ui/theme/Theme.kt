@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.DefaultShadowColor
 
 private val DarkColorScheme = darkColorScheme(
     surface = SurfaceDark,
@@ -16,7 +17,9 @@ private val DarkColorScheme = darkColorScheme(
 
     secondaryContainer = SecondaryContainerDark,
 
-    tertiary = TertiaryDark
+    tertiary = TertiaryDark,
+
+    surfaceContainerHigh = SurfaceContainerHighDark
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -29,12 +32,14 @@ private val LightColorScheme = lightColorScheme(
 
     secondaryContainer = SecondaryContainer,
 
-    tertiary = Tertiary
+    tertiary = Tertiary,
+
+    surfaceContainerHigh = DefaultShadowColor
 )
 
 @Composable
 fun HoursCalendarTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

@@ -3,7 +3,6 @@ package com.wellon.hourscalendar
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.wellon.hourscalendar.composables.mainscreen.MainScreen
@@ -14,13 +13,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val (isDarkTheme, setDarkTheme) = remember {
-                mutableStateOf(false)
+                mutableStateOf(true)
             }
 
             HoursCalendarTheme (
                 darkTheme = isDarkTheme
             ) {
-                MainScreen(MaterialTheme, isDarkTheme, setDarkTheme)
+                MainScreen(isDarkTheme, setDarkTheme)
             }
         }
     }

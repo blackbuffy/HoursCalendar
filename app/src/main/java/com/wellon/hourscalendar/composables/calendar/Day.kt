@@ -18,17 +18,19 @@ import io.github.boguszpawlowski.composecalendar.day.DayState
 import io.github.boguszpawlowski.composecalendar.selection.DynamicSelectionState
 
 @Composable
-fun Day(materialTheme: MaterialTheme, state: DayState<DynamicSelectionState>) {
+fun Day(state: DayState<DynamicSelectionState>) {
     Card(
         modifier = Modifier
             .padding(4.dp)
             .aspectRatio(2f)
             .graphicsLayer(
                 shadowElevation = 4f,
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(8.dp),
+                spotShadowColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                ambientShadowColor = MaterialTheme.colorScheme.surfaceContainerHigh
             ),
         shape = RoundedCornerShape(8.dp),
-        colors = CardDefaults.cardColors(containerColor = materialTheme.colorScheme.secondaryContainer)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
     ) {
         Box(
             contentAlignment = Alignment.Center,
@@ -37,8 +39,8 @@ fun Day(materialTheme: MaterialTheme, state: DayState<DynamicSelectionState>) {
         ) {
             Text(
                 text = state.date.dayOfMonth.toString(),
-                style = materialTheme.typography.titleSmall,
-                color = materialTheme.colorScheme.primary
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.primary
             )
         }
     }

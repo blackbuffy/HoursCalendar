@@ -17,21 +17,21 @@ import androidx.compose.ui.graphics.graphicsLayer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(materialTheme: MaterialTheme, isDarkTheme: Boolean) {
+fun TopBar() {
 
     TopAppBar(
         title = {
             Text(
                 text = "Календарь часов",
-                style = materialTheme.typography.titleLarge,
-                color = materialTheme.colorScheme.primary
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.primary
             )
         },
         navigationIcon = {
             Icon(
                 imageVector = Icons.Filled.DateRange,
                 contentDescription = "иконка календарика",
-                tint = materialTheme.colorScheme.tertiary
+                tint = MaterialTheme.colorScheme.tertiary
             )
         },
         actions = {
@@ -39,12 +39,12 @@ fun TopBar(materialTheme: MaterialTheme, isDarkTheme: Boolean) {
                 Icon(
                     imageVector = Icons.Filled.Settings,
                     contentDescription = "иконка настроек",
-                    tint = materialTheme.colorScheme.tertiary
+                    tint = MaterialTheme.colorScheme.tertiary
                 )
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = materialTheme.colorScheme.primaryContainer
+            containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
         modifier = Modifier
             .graphicsLayer(

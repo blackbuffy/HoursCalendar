@@ -13,26 +13,28 @@ import io.github.boguszpawlowski.composecalendar.SelectableCalendar
 import java.time.DayOfWeek
 
 @Composable
-fun Calendar(materialTheme: MaterialTheme) {
+fun Calendar() {
     Card(
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = materialTheme.colorScheme.primaryContainer),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
         modifier = Modifier
             .fillMaxWidth(0.9f)
             .graphicsLayer(
                 shadowElevation = 7f,
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(16.dp),
+                spotShadowColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                ambientShadowColor = MaterialTheme.colorScheme.surfaceContainerHigh
             )
     ) {
         SelectableCalendar(
             monthHeader = {
-                MonthHeader(materialTheme, it)
+                MonthHeader(it)
             },
             daysOfWeekHeader = {
-                DaysOfWeekHeader(it, materialTheme)
+                DaysOfWeekHeader(it)
             },
             dayContent = {
-                Day(materialTheme, it)
+                Day(it)
             },
             firstDayOfWeek = DayOfWeek.MONDAY,
             showAdjacentMonths = false
