@@ -48,7 +48,7 @@ fun TopBar() {
         ),
         modifier = Modifier
             .graphicsLayer(
-                shadowElevation = 7f //52
+                shadowElevation = 7f
             )
     )
 }
