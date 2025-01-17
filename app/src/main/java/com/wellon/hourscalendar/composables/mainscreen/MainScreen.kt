@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -13,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.wellon.hourscalendar.composables.calendar.Calendar
+import com.wellon.hourscalendar.composables.timepicker.ButtonLog
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -31,6 +31,7 @@ fun MainScreen(isDarkTheme: Boolean, setDarkTheme: (Boolean) -> Unit) {
         ) {
             Calendar()
             SummaryCard()
+            ButtonLog()
         }
     }
 }
