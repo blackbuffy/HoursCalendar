@@ -3,7 +3,6 @@ package com.wellon.hourscalendar.composables.timepicker.picker
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -12,7 +11,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,9 +35,9 @@ import kotlinx.coroutines.flow.map
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Picker(
+    modifier: Modifier = Modifier,
     items: List<String>,
     state: PickerState = rememberPickerState(),
-    modifier: Modifier = Modifier,
     startIndex: Int = 0,
     visibleItemsCount: Int = 3,
     textModifier: Modifier = Modifier,
@@ -70,9 +68,9 @@ fun Picker(
 
     val fadingEdgesGradient = remember {
         Brush.horizontalGradient(
-            0f to Color.Transparent,
+            0.3f to Color.Transparent,
             0.5f to Color.Black,
-            1f to Color.Transparent
+            0.7f to Color.Transparent
         )
     }
 
@@ -133,6 +131,7 @@ private fun Modifier.fadingEdge(brush: Brush) = this
     }
 
 private fun Modifier.fadingEdges(brush: Brush) = this
+    .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
     .drawWithContent {
         drawContent()
         drawRect(brush = brush, blendMode = BlendMode.DstIn)
