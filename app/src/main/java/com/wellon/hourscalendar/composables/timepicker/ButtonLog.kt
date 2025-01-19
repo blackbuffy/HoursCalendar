@@ -59,12 +59,28 @@ fun ButtonLog() {
     if (openDialog) {
         TimePickerDialog(
             onDismissRequest = { setOpenDialog(false) },
-            confirmButton = { Button(onClick = { setOpenDialog(false) }) {
-                Text("Готово")
-            }},
+            confirmButton = {
+                Button(
+                    onClick = { setOpenDialog(false) },
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                ) {
+                    Text(
+                        text = "Готово",
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                }
+            },
             dismissButton = {
-                Button(onClick = { setOpenDialog(false) }) {
-                    Text("Отмена")
+                Button(
+                    onClick = { setOpenDialog(false) },
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                ) {
+                    Text(
+                        text = "Отмена",
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleSmall
+                    )
                 }
             }
         ) {

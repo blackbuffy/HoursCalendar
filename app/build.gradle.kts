@@ -1,6 +1,8 @@
 plugins {
+    id("com.google.devtools.ksp")
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -50,6 +52,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.room)
+
     implementation(libs.composecalendar)
 
     implementation(libs.androidx.core.ktx)
