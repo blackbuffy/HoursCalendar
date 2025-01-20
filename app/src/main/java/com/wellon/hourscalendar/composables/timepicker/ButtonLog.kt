@@ -62,7 +62,8 @@ fun ButtonLog() {
             confirmButton = {
                 Button(
                     onClick = { setOpenDialog(false) },
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
                 ) {
                     Text(
                         text = "Готово",
@@ -74,7 +75,8 @@ fun ButtonLog() {
             dismissButton = {
                 Button(
                     onClick = { setOpenDialog(false) },
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
                 ) {
                     Text(
                         text = "Отмена",

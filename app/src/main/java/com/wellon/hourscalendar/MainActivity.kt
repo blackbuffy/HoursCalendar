@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val (isDarkTheme, setDarkTheme) = remember {
-                mutableStateOf(false)
+                mutableStateOf(true)
             }
 
             HoursCalendarTheme (
