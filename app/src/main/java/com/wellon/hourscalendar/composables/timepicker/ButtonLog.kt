@@ -12,6 +12,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,11 +21,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import com.wellon.hourscalendar.composables.timepicker.picker.rememberPickerState
+import com.wellon.hourscalendar.db.Date
+import com.wellon.hourscalendar.db.DateDatabase
+import java.time.LocalDate
 
 @Composable
-fun ButtonLog() {
+fun ButtonLog(selectedDate: MutableState<LocalDate?>) {
     val (openDialog, setOpenDialog) = remember { mutableStateOf(false) }
+    val pickerState = rememberPickerState()
     var selectedHour by remember { mutableStateOf(1) }
+
+    val dao = DateDatabase.instance.dateDao()
 
     Card (
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
@@ -61,7 +69,12 @@ fun ButtonLog() {
             onDismissRequest = { setOpenDialog(false) },
             confirmButton = {
                 Button(
-                    onClick = { setOpenDialog(false) },
+                    onClick = {
+                        selectedHour = pickerState.selectedItem.toInt()
+                        dao.insertDate(Date(selectedDate.toString(), selectedHour))
+
+                        setOpenDialog(false)
+                    },
                     shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
                 ) {
@@ -86,7 +99,7 @@ fun ButtonLog() {
                 }
             }
         ) {
-            HourPicker()
+            HourPicker(pickerState)
         }
     }
 }

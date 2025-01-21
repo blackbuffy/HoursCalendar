@@ -8,26 +8,22 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.Saver
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import io.github.boguszpawlowski.composecalendar.SelectableCalendar
-import io.github.boguszpawlowski.composecalendar.day.Day
-import io.github.boguszpawlowski.composecalendar.day.DayState
-import io.github.boguszpawlowski.composecalendar.rememberCalendarState
 import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
-import io.github.boguszpawlowski.composecalendar.selection.DynamicSelectionState
 import io.github.boguszpawlowski.composecalendar.selection.SelectionMode
-import io.github.boguszpawlowski.composecalendar.selection.SelectionState
 import java.time.DayOfWeek
 import java.time.LocalDate
 
 @Composable
-fun Calendar() {
+fun Calendar(onDateSelected: (LocalDate) -> Unit) {
     val calendarState = rememberSelectableCalendarState(initialSelectionMode = SelectionMode.Single)
+
+    var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
 
     Card(
         shape = RoundedCornerShape(16.dp),
@@ -50,7 +46,13 @@ fun Calendar() {
                 DaysOfWeekHeader(it)
             },
             dayContent = {
-                Day(it)
+                Day(
+                    state = it,
+                    onClick = { date ->
+                        selectedDate = date
+                        onDateSelected(date)
+                    }
+                )
             },
             firstDayOfWeek = DayOfWeek.MONDAY,
             showAdjacentMonths = false

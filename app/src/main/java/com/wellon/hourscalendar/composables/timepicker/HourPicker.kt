@@ -9,11 +9,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.wellon.hourscalendar.composables.timepicker.picker.Picker
+import com.wellon.hourscalendar.composables.timepicker.picker.PickerState
 import com.wellon.hourscalendar.composables.timepicker.picker.rememberPickerState
 
 @Composable
-fun HourPicker() {
-    val state = rememberPickerState()
+fun HourPicker(state: PickerState) {
     val items = remember { (1..6).map { it.toString() } }
 
     Column(
