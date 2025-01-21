@@ -17,13 +17,18 @@ import androidx.compose.ui.unit.dp
 import io.github.boguszpawlowski.composecalendar.SelectableCalendar
 import io.github.boguszpawlowski.composecalendar.day.Day
 import io.github.boguszpawlowski.composecalendar.day.DayState
+import io.github.boguszpawlowski.composecalendar.rememberCalendarState
+import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
 import io.github.boguszpawlowski.composecalendar.selection.DynamicSelectionState
+import io.github.boguszpawlowski.composecalendar.selection.SelectionMode
 import io.github.boguszpawlowski.composecalendar.selection.SelectionState
 import java.time.DayOfWeek
 import java.time.LocalDate
 
 @Composable
 fun Calendar() {
+    val calendarState = rememberSelectableCalendarState(initialSelectionMode = SelectionMode.Single)
+
     Card(
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
@@ -37,6 +42,7 @@ fun Calendar() {
             )
     ) {
         SelectableCalendar(
+            calendarState = calendarState,
             monthHeader = {
                 MonthHeader(it)
             },

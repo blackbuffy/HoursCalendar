@@ -1,5 +1,6 @@
 package com.wellon.hourscalendar.composables.calendar
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,12 +14,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import io.github.boguszpawlowski.composecalendar.day.DayState
 import io.github.boguszpawlowski.composecalendar.selection.DynamicSelectionState
+import java.time.LocalDate
 
 @Composable
-fun Day(state: DayState<DynamicSelectionState>) {
+fun Day(
+    state: DayState<DynamicSelectionState>,
+    onClick: (LocalDate) -> Unit = {}
+) {
+    val date = state.date
+    val selectionState = state.selectionState
+
+    val isSelected = selectionState.isDateSelected(date)
+
     Card(
         modifier = Modifier
             .padding(4.dp)
@@ -36,11 +47,15 @@ fun Day(state: DayState<DynamicSelectionState>) {
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxSize()
+                .clickable {
+                    onClick(date)
+                    selectionState.onDateSelected(date)
+                }
         ) {
             Text(
                 text = state.date.dayOfMonth.toString(),
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.primary
+                style = if (isSelected) MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold) else MaterialTheme.typography.titleSmall,
+                color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary
             )
         }
     }
