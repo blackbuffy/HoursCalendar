@@ -14,10 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.wellon.hourscalendar.composables.calendar.Calendar
 import com.wellon.hourscalendar.composables.timepicker.ButtonLog
+import com.wellon.hourscalendar.db.Date
 import java.time.LocalDate
 
 @Composable
-fun MainScreen(isDarkTheme: Boolean, setDarkTheme: (Boolean) -> Unit) {
+fun MainScreen(isDarkTheme: Boolean, setDarkTheme: (Boolean) -> Unit, dates: MutableList<String>) {
     var selectedDate = remember { mutableStateOf<LocalDate?>(null) }
 
     Scaffold (
@@ -32,7 +33,7 @@ fun MainScreen(isDarkTheme: Boolean, setDarkTheme: (Boolean) -> Unit) {
                 .padding(PaddingValues(top = it.calculateTopPadding() + 16.dp)),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Calendar(onDateSelected = { selectedDate.value = it })
+            Calendar(onDateSelected = { selectedDate.value = it }, dates = dates, isDarkTheme = isDarkTheme)
             SummaryCard()
             ButtonLog(selectedDate = selectedDate)
         }

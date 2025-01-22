@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import com.wellon.hourscalendar.db.Date
 import io.github.boguszpawlowski.composecalendar.SelectableCalendar
 import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
 import io.github.boguszpawlowski.composecalendar.selection.SelectionMode
@@ -20,7 +21,7 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 
 @Composable
-fun Calendar(onDateSelected: (LocalDate) -> Unit) {
+fun Calendar(onDateSelected: (LocalDate) -> Unit, dates: MutableList<String>, isDarkTheme: Boolean) {
     val calendarState = rememberSelectableCalendarState(initialSelectionMode = SelectionMode.Single)
 
     var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
@@ -51,7 +52,9 @@ fun Calendar(onDateSelected: (LocalDate) -> Unit) {
                     onClick = { date ->
                         selectedDate = date
                         onDateSelected(date)
-                    }
+                    },
+                    dates = dates,
+                    isDarkTheme = isDarkTheme
                 )
             },
             firstDayOfWeek = DayOfWeek.MONDAY,

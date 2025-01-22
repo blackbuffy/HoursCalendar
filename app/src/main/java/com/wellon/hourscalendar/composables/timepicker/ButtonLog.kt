@@ -24,7 +24,11 @@ import androidx.compose.ui.unit.dp
 import com.wellon.hourscalendar.composables.timepicker.picker.rememberPickerState
 import com.wellon.hourscalendar.db.Date
 import com.wellon.hourscalendar.db.DateDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.LocalDate
+import kotlin.coroutines.EmptyCoroutineContext
 
 @Composable
 fun ButtonLog(selectedDate: MutableState<LocalDate?>) {
@@ -64,6 +68,8 @@ fun ButtonLog(selectedDate: MutableState<LocalDate?>) {
         }
     }
 
+    val scope = CoroutineScope(EmptyCoroutineContext)
+
     if (openDialog) {
         TimePickerDialog(
             onDismissRequest = { setOpenDialog(false) },
@@ -71,7 +77,9 @@ fun ButtonLog(selectedDate: MutableState<LocalDate?>) {
                 Button(
                     onClick = {
                         selectedHour = pickerState.selectedItem.toInt()
-                        dao.insertDate(Date(selectedDate.toString(), selectedHour))
+                        scope.launch(Dispatchers.IO) {
+                            dao.insertDate(Date(selectedDate.value.toString(), selectedHour))
+                        }
 
                         setOpenDialog(false)
                     },

@@ -53,6 +53,8 @@ android {
 
 dependencies {
     implementation(libs.room)
+    ksp(libs.room.compiler)
+    implementation(libs.room.ktx)
 
     implementation(libs.composecalendar)
 
