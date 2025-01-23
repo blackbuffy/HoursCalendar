@@ -15,12 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.wellon.hourscalendar.composables.calendar.Calendar
 import com.wellon.hourscalendar.composables.timepicker.ButtonLog
-import com.wellon.hourscalendar.db.Date
 import java.time.LocalDate
 
 @Composable
 fun MainScreen(isDarkTheme: Boolean, setDarkTheme: (Boolean) -> Unit, dates: MutableState<List<String>>) {
-    var selectedDate = remember { mutableStateOf<LocalDate?>(null) }
+    val selectedDate = remember { mutableStateOf<LocalDate?>(null) }
 
     Scaffold (
         modifier = Modifier

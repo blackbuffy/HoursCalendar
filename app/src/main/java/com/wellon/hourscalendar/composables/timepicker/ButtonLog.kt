@@ -1,6 +1,5 @@
 package com.wellon.hourscalendar.composables.timepicker
 
-import android.database.sqlite.SQLiteConstraintException
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons

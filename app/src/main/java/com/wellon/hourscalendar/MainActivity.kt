@@ -4,13 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import com.wellon.hourscalendar.composables.mainscreen.MainScreen
-import com.wellon.hourscalendar.db.Date
 import com.wellon.hourscalendar.db.DateDatabase
 import com.wellon.hourscalendar.ui.theme.HoursCalendarTheme
 import kotlinx.coroutines.CoroutineScope
