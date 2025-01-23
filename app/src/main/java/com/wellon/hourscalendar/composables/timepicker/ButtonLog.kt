@@ -1,5 +1,6 @@
 package com.wellon.hourscalendar.composables.timepicker
 
+import android.database.sqlite.SQLiteConstraintException
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -31,7 +32,7 @@ import java.time.LocalDate
 import kotlin.coroutines.EmptyCoroutineContext
 
 @Composable
-fun ButtonLog(selectedDate: MutableState<LocalDate?>) {
+fun ButtonLog(selectedDate: MutableState<LocalDate?>, dates: MutableState<List<String>>) {
     val (openDialog, setOpenDialog) = remember { mutableStateOf(false) }
     val pickerState = rememberPickerState()
     var selectedHour by remember { mutableStateOf(1) }
@@ -52,7 +53,13 @@ fun ButtonLog(selectedDate: MutableState<LocalDate?>) {
     ) {
         Button(
             colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-            onClick = { setOpenDialog(true) }
+            onClick = {
+                var i = 0
+                dates.value.forEach {
+                    if (selectedDate.value.toString() == it) i++
+                }
+                if (i == 0) setOpenDialog(true)
+            }
         ) {
             Icon(
                 imageVector = Icons.Filled.Create,
@@ -77,8 +84,11 @@ fun ButtonLog(selectedDate: MutableState<LocalDate?>) {
                 Button(
                     onClick = {
                         selectedHour = pickerState.selectedItem.toInt()
+                        val date = Date(selectedDate.value.toString(), selectedHour)
                         scope.launch(Dispatchers.IO) {
-                            dao.insertDate(Date(selectedDate.value.toString(), selectedHour))
+                            dao.insertDate(date)
+                            val updatedDates = dao.getAll().map { it.date }
+                            dates.value = updatedDates
                         }
 
                         setOpenDialog(false)

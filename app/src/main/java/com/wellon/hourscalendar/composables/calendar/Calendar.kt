@@ -21,7 +21,7 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 
 @Composable
-fun Calendar(onDateSelected: (LocalDate) -> Unit, dates: MutableList<String>, isDarkTheme: Boolean) {
+fun Calendar(onDateSelected: (LocalDate) -> Unit, dates: List<String>) {
     val calendarState = rememberSelectableCalendarState(initialSelectionMode = SelectionMode.Single)
 
     var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
@@ -53,8 +53,7 @@ fun Calendar(onDateSelected: (LocalDate) -> Unit, dates: MutableList<String>, is
                         selectedDate = date
                         onDateSelected(date)
                     },
-                    dates = dates,
-                    isDarkTheme = isDarkTheme
+                    dates = dates
                 )
             },
             firstDayOfWeek = DayOfWeek.MONDAY,

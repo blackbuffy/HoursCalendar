@@ -4,9 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import com.wellon.hourscalendar.composables.mainscreen.MainScreen
 import com.wellon.hourscalendar.db.Date
 import com.wellon.hourscalendar.db.DateDatabase
@@ -27,12 +29,12 @@ class MainActivity : ComponentActivity() {
             DateDatabase.initialize(applicationContext)
             val dao = DateDatabase.instance.dateDao()
 
-            var dates = remember { mutableListOf<String>() }
+            val dates = remember { mutableStateOf(listOf<String>()) }
             val scope = CoroutineScope(EmptyCoroutineContext)
             LaunchedEffect(Unit) {
                 scope.launch(Dispatchers.IO) {
                     val list = dao.getAll().map { it.date }
-                    dates = list.toMutableList()
+                    dates.value = list
                 }
             }
             

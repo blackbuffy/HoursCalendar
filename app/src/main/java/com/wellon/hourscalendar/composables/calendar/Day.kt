@@ -28,8 +28,7 @@ import java.time.LocalDate
 fun Day(
     state: DayState<DynamicSelectionState>,
     onClick: (LocalDate) -> Unit = {},
-    dates: MutableList<String>,
-    isDarkTheme: Boolean
+    dates: List<String>
 ) {
     val date = state.date
     val selectionState = state.selectionState
@@ -40,7 +39,6 @@ fun Day(
     var isWrittenHours = false
     dates.forEach {
         if (LocalDate.parse(it) == date) isWrittenHours = true
-        println(it)
     }
 
     Card(

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -18,7 +19,7 @@ import com.wellon.hourscalendar.db.Date
 import java.time.LocalDate
 
 @Composable
-fun MainScreen(isDarkTheme: Boolean, setDarkTheme: (Boolean) -> Unit, dates: MutableList<String>) {
+fun MainScreen(isDarkTheme: Boolean, setDarkTheme: (Boolean) -> Unit, dates: MutableState<List<String>>) {
     var selectedDate = remember { mutableStateOf<LocalDate?>(null) }
 
     Scaffold (
@@ -33,9 +34,9 @@ fun MainScreen(isDarkTheme: Boolean, setDarkTheme: (Boolean) -> Unit, dates: Mut
                 .padding(PaddingValues(top = it.calculateTopPadding() + 16.dp)),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Calendar(onDateSelected = { selectedDate.value = it }, dates = dates, isDarkTheme = isDarkTheme)
+            Calendar(onDateSelected = { selectedDate.value = it }, dates = dates.value)
             SummaryCard()
-            ButtonLog(selectedDate = selectedDate)
+            ButtonLog(selectedDate = selectedDate, dates)
         }
     }
 }
