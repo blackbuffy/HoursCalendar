@@ -19,6 +19,8 @@ private val DarkColorScheme = darkColorScheme(
 
     tertiary = TertiaryDark,
 
+    tertiaryContainer = DarkTertiaryContainer,
+
     surfaceContainerHigh = SurfaceContainerHighDark
 )
 
@@ -33,6 +35,8 @@ private val LightColorScheme = lightColorScheme(
     secondaryContainer = SecondaryContainer,
 
     tertiary = Tertiary,
+
+    tertiaryContainer = TertiaryContainer,
 
     surfaceContainerHigh = DefaultShadowColor
 )

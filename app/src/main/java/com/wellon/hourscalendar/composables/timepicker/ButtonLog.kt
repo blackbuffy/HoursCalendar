@@ -12,6 +12,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,11 +21,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import com.wellon.hourscalendar.composables.timepicker.picker.rememberPickerState
+import com.wellon.hourscalendar.db.Date
+import com.wellon.hourscalendar.db.DateDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+import kotlin.coroutines.EmptyCoroutineContext
 
 @Composable
-fun ButtonLog() {
+fun ButtonLog(selectedDate: MutableState<LocalDate?>, dates: MutableState<List<String>>) {
     val (openDialog, setOpenDialog) = remember { mutableStateOf(false) }
+    val pickerState = rememberPickerState()
     var selectedHour by remember { mutableStateOf(1) }
+
+    val dao = DateDatabase.instance.dateDao()
 
     Card (
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
@@ -40,7 +52,13 @@ fun ButtonLog() {
     ) {
         Button(
             colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-            onClick = { setOpenDialog(true) }
+            onClick = {
+                var i = 0
+                dates.value.forEach {
+                    if (selectedDate.value.toString() == it) i++
+                }
+                if (i == 0) setOpenDialog(true)
+            }
         ) {
             Icon(
                 imageVector = Icons.Filled.Create,
@@ -56,19 +74,49 @@ fun ButtonLog() {
         }
     }
 
+    val scope = CoroutineScope(EmptyCoroutineContext)
+
     if (openDialog) {
         TimePickerDialog(
             onDismissRequest = { setOpenDialog(false) },
-            confirmButton = { Button(onClick = { setOpenDialog(false) }) {
-                Text("Готово")
-            }},
+            confirmButton = {
+                Button(
+                    onClick = {
+                        selectedHour = pickerState.selectedItem.toInt()
+                        val date = Date(selectedDate.value.toString(), selectedHour)
+                        scope.launch(Dispatchers.IO) {
+                            dao.insertDate(date)
+                            val updatedDates = dao.getAll().map { it.date }
+                            dates.value = updatedDates
+                        }
+
+                        setOpenDialog(false)
+                    },
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
+                ) {
+                    Text(
+                        text = "Готово",
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                }
+            },
             dismissButton = {
-                Button(onClick = { setOpenDialog(false) }) {
-                    Text("Отмена")
+                Button(
+                    onClick = { setOpenDialog(false) },
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
+                ) {
+                    Text(
+                        text = "Отмена",
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleSmall
+                    )
                 }
             }
         ) {
-            HourPicker()
+            HourPicker(pickerState)
         }
     }
 }

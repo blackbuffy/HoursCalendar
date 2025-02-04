@@ -16,7 +16,13 @@ fun TimePickerDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        title = { Text("Выберите час") },
+        title = {
+            Text(
+                text = "Выберите час",
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.titleLarge
+            )
+        },
         text = {
             content()
         },
