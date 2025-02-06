@@ -28,7 +28,6 @@ import com.wellon.hourscalendar.db.DateDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import kotlin.coroutines.EmptyCoroutineContext
 
 @Composable
