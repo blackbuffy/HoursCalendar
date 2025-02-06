@@ -20,7 +20,7 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 
 @Composable
-fun Calendar(onDateSelected: (LocalDate) -> Unit, dates: List<String>) {
+fun Calendar(onDateSelected: (SelectedDayState) -> Unit, dates: Map<String, Int>) {
     val calendarState = rememberSelectableCalendarState(initialSelectionMode = SelectionMode.Single)
 
     var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
@@ -49,7 +49,7 @@ fun Calendar(onDateSelected: (LocalDate) -> Unit, dates: List<String>) {
                 Day(
                     state = it,
                     onClick = { date ->
-                        selectedDate = date
+                        selectedDate = date.date
                         onDateSelected(date)
                     },
                     dates = dates

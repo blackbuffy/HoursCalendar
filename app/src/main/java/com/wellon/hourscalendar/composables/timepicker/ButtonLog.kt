@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import com.wellon.hourscalendar.composables.calendar.SelectedDayState
 import com.wellon.hourscalendar.composables.timepicker.picker.rememberPickerState
 import com.wellon.hourscalendar.db.Date
 import com.wellon.hourscalendar.db.DateDatabase
@@ -31,7 +32,7 @@ import java.time.LocalDate
 import kotlin.coroutines.EmptyCoroutineContext
 
 @Composable
-fun ButtonLog(selectedDate: MutableState<LocalDate?>, dates: MutableState<List<String>>) {
+fun ButtonLog(selectedDate: MutableState<SelectedDayState>, dates: MutableState<Map<String, Int>>) {
     val (openDialog, setOpenDialog) = remember { mutableStateOf(false) }
     val pickerState = rememberPickerState()
     var selectedHour by remember { mutableStateOf(1) }
@@ -53,11 +54,7 @@ fun ButtonLog(selectedDate: MutableState<LocalDate?>, dates: MutableState<List<S
         Button(
             colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
             onClick = {
-                var i = 0
-                dates.value.forEach {
-                    if (selectedDate.value.toString() == it) i++
-                }
-                if (i == 0) setOpenDialog(true)
+                if (!dates.value.containsKey(selectedDate.value.date.toString())) setOpenDialog(true)
             }
         ) {
             Icon(
@@ -83,10 +80,10 @@ fun ButtonLog(selectedDate: MutableState<LocalDate?>, dates: MutableState<List<S
                 Button(
                     onClick = {
                         selectedHour = pickerState.selectedItem.toInt()
-                        val date = Date(selectedDate.value.toString(), selectedHour)
+                        val date = Date(selectedDate.value.date.toString(), selectedHour)
                         scope.launch(Dispatchers.IO) {
                             dao.insertDate(date)
-                            val updatedDates = dao.getAll().map { it.date }
+                            val updatedDates = dao.getAll().associate { it.date to it.hours }
                             dates.value = updatedDates
                         }
 

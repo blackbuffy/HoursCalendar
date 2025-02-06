@@ -25,12 +25,12 @@ class MainActivity : ComponentActivity() {
             DateDatabase.initialize(applicationContext)
             val dao = DateDatabase.instance.dateDao()
 
-            val dates = remember { mutableStateOf(listOf<String>()) }
+            val dates = remember { mutableStateOf(mapOf<String, Int>()) }
             val scope = CoroutineScope(EmptyCoroutineContext)
             LaunchedEffect(Unit) {
                 scope.launch(Dispatchers.IO) {
-                    val list = dao.getAll().map { it.date }
-                    dates.value = list
+                    val map = dao.getAll().associate { it.date to it.hours }
+                    dates.value = map
                 }
             }
             

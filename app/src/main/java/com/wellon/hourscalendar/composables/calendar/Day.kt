@@ -25,19 +25,29 @@ import java.time.LocalDate
 @Composable
 fun Day(
     state: DayState<DynamicSelectionState>,
-    onClick: (LocalDate) -> Unit = {},
-    dates: List<String>
+    onClick: (SelectedDayState) -> Unit = {},
+    dates: Map<String, Int>
 ) {
     val date = state.date
     val selectionState = state.selectionState
 
     val isSelected = selectionState.isDateSelected(date)
 
-
+    var hours = 0
     var isWrittenHours = false
-    dates.forEach {
-        if (LocalDate.parse(it) == date) isWrittenHours = true
+
+    dates.keys.forEach {
+        println(it)
     }
+
+    dates.keys.forEach {
+        if (LocalDate.parse(it) == date) {
+            isWrittenHours = true
+            hours = dates[it]!!.toInt()
+        }
+    }
+
+    val dayState = SelectedDayState(date, hours)
 
     Card(
         modifier = Modifier
@@ -61,14 +71,14 @@ fun Day(
         val modifier = if (isWrittenHours) Modifier
             .fillMaxSize()
             .clickable {
-                onClick(date)
+                onClick(dayState)
                 selectionState.onDateSelected(date)
             }
             .background(brush = gradientBrush)
         else Modifier
             .fillMaxSize()
             .clickable {
-                onClick(date)
+                onClick(dayState)
                 selectionState.onDateSelected(date)
             }
             .background(color = MaterialTheme.colorScheme.secondaryContainer)
