@@ -1,9 +1,16 @@
 package com.wellon.hourscalendar.composables.timepicker
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -14,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -34,9 +42,11 @@ import kotlin.coroutines.EmptyCoroutineContext
 fun ButtonLog(selectedDate: MutableState<SelectedDayState>, dates: MutableState<Map<String, Int>>) {
     val (openDialog, setOpenDialog) = remember { mutableStateOf(false) }
     val pickerState = rememberPickerState()
-    var selectedHour by remember { mutableStateOf(1) }
+    var selectedHour by remember { mutableIntStateOf(1) }
 
     val dao = DateDatabase.instance.dateDao()
+
+    val hasHours = dates.value.containsKey(selectedDate.value.date.toString())
 
     Card (
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
@@ -50,23 +60,53 @@ fun ButtonLog(selectedDate: MutableState<SelectedDayState>, dates: MutableState<
                 ambientShadowColor = MaterialTheme.colorScheme.surfaceContainerHigh
             )
     ) {
-        Button(
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-            onClick = {
-                if (!dates.value.containsKey(selectedDate.value.date.toString())) setOpenDialog(true)
-            }
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Create,
-                contentDescription = "Записать часы",
-                tint = MaterialTheme.colorScheme.tertiary
-            )
+        AnimatedContent(
+            targetState = hasHours,
+            transitionSpec = {
+                slideInHorizontally { width -> width } + fadeIn() togetherWith
+                slideOutHorizontally { width -> -width } + fadeOut()
+            },
+            label = "animka"
+        ) { targetHasHours ->
+            if (targetHasHours) {
+                Button(
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                    onClick = {
+                        TODO()
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = "Удалить часы",
+                        tint = MaterialTheme.colorScheme.tertiary
+                    )
 
-            Text(
-                text = "Записать часы",
-                color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.titleSmall
-            )
+                    Text(
+                        text = "Удалить часы",
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                }
+            } else {
+                Button(
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                    onClick = {
+                        if (!dates.value.containsKey(selectedDate.value.date.toString())) setOpenDialog(true)
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Create,
+                        contentDescription = "Записать часы",
+                        tint = MaterialTheme.colorScheme.tertiary
+                    )
+
+                    Text(
+                        text = "Записать часы",
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                }
+            }
         }
     }
 
