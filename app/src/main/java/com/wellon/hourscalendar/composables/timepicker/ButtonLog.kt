@@ -40,9 +40,10 @@ import kotlin.coroutines.EmptyCoroutineContext
 
 @Composable
 fun ButtonLog(selectedDate: MutableState<SelectedDayState>, dates: MutableState<Map<String, Int>>) {
-    val (openDialog, setOpenDialog) = remember { mutableStateOf(false) }
+    val (openHoursDialog, setOpenHoursDialog) = remember { mutableStateOf(false) }
+    val (openDeleteDialog, setOpenDeleteDialog) = remember { mutableStateOf(false) }
     val pickerState = rememberPickerState()
-    var selectedHour by remember { mutableIntStateOf(1) }
+    var selectedHour by remember { mutableIntStateOf(selectedDate.value.hours) }
 
     val dao = DateDatabase.instance.dateDao()
 
@@ -72,7 +73,7 @@ fun ButtonLog(selectedDate: MutableState<SelectedDayState>, dates: MutableState<
                 Button(
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                     onClick = {
-                        TODO()
+                        setOpenDeleteDialog(true)
                     }
                 ) {
                     Icon(
@@ -91,7 +92,7 @@ fun ButtonLog(selectedDate: MutableState<SelectedDayState>, dates: MutableState<
                 Button(
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                     onClick = {
-                        if (!dates.value.containsKey(selectedDate.value.date.toString())) setOpenDialog(true)
+                        if (!dates.value.containsKey(selectedDate.value.date.toString())) setOpenHoursDialog(true)
                     }
                 ) {
                     Icon(
@@ -112,9 +113,57 @@ fun ButtonLog(selectedDate: MutableState<SelectedDayState>, dates: MutableState<
 
     val scope = CoroutineScope(EmptyCoroutineContext)
 
-    if (openDialog) {
+    if (openDeleteDialog) {
+        DeleteHoursDialog(
+            onDismissRequest = { setOpenDeleteDialog(false) },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        val date = Date(selectedDate.value.date.toString(), selectedHour)
+
+                        scope.launch(Dispatchers.IO) {
+                            dao.deleteDate(date)
+                            val updatedDates = dao.getAll().associate { it.date to it.hours }
+                            dates.value = updatedDates
+                        }
+
+                        setOpenDeleteDialog(false)
+                    },
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
+                ) {
+                    Text(
+                        text = "Подтвердить",
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = { setOpenDeleteDialog(false) },
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
+                ) {
+                    Text(
+                        text = "Отмена",
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                }
+            }
+        ) {
+            Text(
+                text = "Это действие необратимо",
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.titleSmall
+            )
+        }
+    }
+
+    if (openHoursDialog) {
         TimePickerDialog(
-            onDismissRequest = { setOpenDialog(false) },
+            onDismissRequest = { setOpenHoursDialog(false) },
             confirmButton = {
                 Button(
                     onClick = {
@@ -126,7 +175,7 @@ fun ButtonLog(selectedDate: MutableState<SelectedDayState>, dates: MutableState<
                             dates.value = updatedDates
                         }
 
-                        setOpenDialog(false)
+                        setOpenHoursDialog(false)
                     },
                     shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
@@ -140,7 +189,7 @@ fun ButtonLog(selectedDate: MutableState<SelectedDayState>, dates: MutableState<
             },
             dismissButton = {
                 Button(
-                    onClick = { setOpenDialog(false) },
+                    onClick = { setOpenHoursDialog(false) },
                     shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
                 ) {
