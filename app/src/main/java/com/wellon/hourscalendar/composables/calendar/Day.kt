@@ -2,6 +2,7 @@ package com.wellon.hourscalendar.composables.calendar
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -40,12 +41,9 @@ fun Day(
     var isWrittenHours = false
 
     val animatedDayColor by animateColorAsState(
-        targetValue = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary
+        targetValue = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary,
+        label = "Day Color Animation"
     )
-
-    dates.keys.forEach {
-        println(it)
-    }
 
     dates.keys.forEach {
         if (LocalDate.parse(it) == date) {
@@ -68,10 +66,11 @@ fun Day(
             ),
         shape = RoundedCornerShape(8.dp)
     ) {
-        val gradientBrushStart = getGradient(0)
-        val gradientBrushEnd = getGradient(hours)
-
-
+        val gradientBrushFloat = animateFloatAsState(getGradient(hours), label = "Gradient Animation")
+        val gradient = Brush.linearGradient(
+            gradientBrushFloat.value to MaterialTheme.colorScheme.secondaryContainer,
+            1f to Color(0xFFB0E0E6)
+        )
 
         val modifier = if (isWrittenHours) Modifier
             .animateContentSize()
@@ -80,7 +79,7 @@ fun Day(
                 onClick(dayState)
                 selectionState.onDateSelected(date)
             }
-            .background(brush = gradientBrushEnd)
+            .background(brush = gradient)
         else Modifier
             .animateContentSize()
             .fillMaxSize()
@@ -104,35 +103,14 @@ fun Day(
 }
 
 @Composable
-fun getGradient(hours: Int): Brush {
+fun getGradient(hours: Int): Float {
     return when (hours) {
-        1 -> Brush.linearGradient(
-            0.7f to MaterialTheme.colorScheme.secondaryContainer,
-            1f to Color(0xFFB0E0E6)
-        )
-        2 -> Brush.linearGradient(
-            0.6f to MaterialTheme.colorScheme.secondaryContainer,
-            1f to Color(0xFFB0E0E6)
-        )
-        3 -> Brush.linearGradient(
-            0.5f to MaterialTheme.colorScheme.secondaryContainer,
-            1f to Color(0xFFB0E0E6)
-        )
-        4 -> Brush.linearGradient(
-            0.4f to MaterialTheme.colorScheme.secondaryContainer,
-            1f to Color(0xFFB0E0E6)
-        )
-        5 -> Brush.linearGradient(
-            0.3f to MaterialTheme.colorScheme.secondaryContainer,
-            1f to Color(0xFFB0E0E6)
-        )
-        6 -> Brush.linearGradient(
-            0.2f to MaterialTheme.colorScheme.secondaryContainer,
-            1f to Color(0xFFB0E0E6)
-        )
-        else -> Brush.linearGradient(
-            0.3f to MaterialTheme.colorScheme.secondaryContainer,
-            1f to MaterialTheme.colorScheme.secondaryContainer
-        )
+        1 -> 0.7f
+        2 -> 0.6f
+        3 -> 0.5f
+        4 -> 0.4f
+        5 -> 0.3f
+        6 -> 0.2f
+        else -> 1f
     }
 }
