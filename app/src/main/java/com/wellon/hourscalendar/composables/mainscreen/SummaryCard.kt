@@ -27,7 +27,7 @@ fun SummaryCard(selectedDate: MutableState<SelectedDayState>, dates: MutableStat
     val selectedDateValue = selectedDate.value
     val selectedDayHours = dates.value[selectedDateValue.date.toString()] ?: 0
 
-    val totalMonthlyHours = remember(dates.value) {
+    val totalMonthlyHours = remember(selectedDateValue.date, dates.value) { // Include selectedDateValue.date here
         val yearMonth = YearMonth.from(selectedDateValue.date)
         dates.value.filterKeys { YearMonth.from(LocalDate.parse(it)) == yearMonth }
             .values
