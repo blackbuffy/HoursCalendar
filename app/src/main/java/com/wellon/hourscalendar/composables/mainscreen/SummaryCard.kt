@@ -1,5 +1,9 @@
 package com.wellon.hourscalendar.composables.mainscreen
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,7 +31,7 @@ fun SummaryCard(selectedDate: MutableState<SelectedDayState>, dates: MutableStat
     val selectedDateValue = selectedDate.value
     val selectedDayHours = dates.value[selectedDateValue.date.toString()] ?: 0
 
-    val totalMonthlyHours = remember(selectedDateValue.date, dates.value) { // Include selectedDateValue.date here
+    val totalMonthlyHours = remember(selectedDateValue.date, dates.value) {
         val yearMonth = YearMonth.from(selectedDateValue.date)
         dates.value.filterKeys { YearMonth.from(LocalDate.parse(it)) == yearMonth }
             .values
@@ -68,17 +72,48 @@ fun SummaryCard(selectedDate: MutableState<SelectedDayState>, dates: MutableStat
                     .padding(top = 8.dp, start = 16.dp, end = 24.dp, bottom = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = "За месяц: $totalMonthlyHours",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary
-                )
-
-                Text(
-                    text = "В выбранный день: $selectedDayHours",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary
-                )
+                Row(
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "За месяц: ",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    AnimatedContent(
+                        targetState = totalMonthlyHours,
+                        transitionSpec = {
+                            slideInHorizontally { it } togetherWith slideOutHorizontally { -it }
+                        }
+                    ) { targetCount ->
+                        Text(
+                            text = "$targetCount",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+                Row(
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "В выбранный день: ",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    AnimatedContent(
+                        targetState = selectedDayHours,
+                        transitionSpec = {
+                            slideInHorizontally { it } togetherWith slideOutHorizontally { -it }
+                        }
+                    ) { targetCount ->
+                        Text(
+                            text = "$targetCount",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
             }
         }
     }
