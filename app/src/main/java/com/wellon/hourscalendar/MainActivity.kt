@@ -1,5 +1,6 @@
 package com.wellon.hourscalendar
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,8 +19,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val themePreference = remember { ThemePreference(applicationContext) }
+
             val (isDarkTheme, setDarkTheme) = remember {
-                mutableStateOf(true)
+                mutableStateOf(themePreference.getDarkThemeState())
             }
 
             DateDatabase.initialize(applicationContext)
@@ -35,10 +38,29 @@ class MainActivity : ComponentActivity() {
             }
             
             HoursCalendarTheme (
-                darkTheme = isDarkTheme
+                darkTheme = isDarkTheme,
             ) {
-                MainScreen(isDarkTheme, setDarkTheme, dates)
+                MainScreen(
+                    isDarkTheme,
+                    setDarkTheme = { newValue ->
+                        setDarkTheme(newValue)
+                        themePreference.saveDarkThemeState(newValue)
+                    },
+                    dates
+                )
             }
         }
+    }
+}
+
+class ThemePreference(context: Context) {
+    private val sharedPreferences = context.getSharedPreferences("app_theme", Context.MODE_PRIVATE)
+
+    fun saveDarkThemeState(isEnabled: Boolean) {
+        sharedPreferences.edit().putBoolean("dark_theme", isEnabled).apply()
+    }
+
+    fun getDarkThemeState(): Boolean {
+        return sharedPreferences.getBoolean("dark_theme", false)
     }
 }

@@ -1,6 +1,5 @@
 package com.wellon.hourscalendar.composables.mainscreen
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Settings
@@ -17,7 +16,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar() {
+fun TopBar(onSettingsClick: () -> Unit) {
 
     TopAppBar(
         title = {
@@ -35,7 +34,7 @@ fun TopBar() {
             )
         },
         actions = {
-            IconButton(onClick = { TODO() }) {
+            IconButton(onClick = onSettingsClick) {
                 Icon(
                     imageVector = Icons.Filled.Settings,
                     contentDescription = "иконка настроек",
